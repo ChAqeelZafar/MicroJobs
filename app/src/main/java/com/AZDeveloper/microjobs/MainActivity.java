@@ -2,8 +2,6 @@ package com.AZDeveloper.microjobs;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,9 +16,11 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     String mVerificationId;
     PhoneAuthProvider.ForceResendingToken  mResendToken;
-    EditText editText, editText1;
-    Button button, button1;
+    EditText phoneEdit, codeEdit;
+    Button sendCodeBtn, verifynowBtn;
     private FirebaseAuth mAuth;
 
 
@@ -42,32 +42,46 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
-        editText = findViewById(R.id.et);
-        editText1 = findViewById(R.id.etCode);
-        button1 = findViewById(R.id.b2);
-        button = findViewById(R.id.b);
+        phoneEdit = findViewById(R.id.main_edit_phoneno);
+        codeEdit = findViewById(R.id.main_edit_code);
+        sendCodeBtn = findViewById(R.id.main_btn_sendcode);
+        verifynowBtn = findViewById(R.id.getuserdata_btn_verifynow);
+
+        codeEdit.setVisibility(View.GONE);
+        verifynowBtn.setVisibility(View.GONE);
 
 
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        verifynowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                verifyVerificationCode(editText1.getText().toString());
+                verifyVerificationCode(codeEdit.getText().toString());
 
             }
         });
-        button.setOnClickListener(new View.OnClickListener() {
+        phoneEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendVerificationCode(editText.getText().toString());
+                sendCodeBtn.setClickable(true);
+                codeEdit.setVisibility(View.GONE);
+                verifynowBtn.setVisibility(View.GONE);
+            }
+        });
+        sendCodeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                codeEdit.setVisibility(View.VISIBLE);
+                verifynowBtn.setVisibility(View.VISIBLE);
+                sendCodeBtn.setClickable(false);
+                sendVerificationCode(phoneEdit.getText().toString());
 
             }
         });
-
 
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+                Toast.makeText(MainActivity.this,"Code sent successfully", Toast.LENGTH_LONG).show();
                 //Getting the code sent by SMS
                 String code = phoneAuthCredential.getSmsCode();
 
@@ -123,9 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             //verification successful we will start the profile activity
-                            Intent intent = new Intent(MainActivity.this, FragmentContainer.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
+                            checkIfDataAlreadyInFirestore();
 
                         } else {
 
@@ -142,4 +154,36 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    //Check if User is logged in First time. So I can get His Name & Mail also, Otherwise Simoly Login
+    void checkIfDataAlreadyInFirestore(){
+        final boolean isDataEntered = false;
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("usersID").document(FirebaseAuth.getInstance().getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    Intent intent;
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        //Mean User with current id is present in Firestore so go to the FragmentContainer Activity
+                        intent = new Intent(MainActivity.this, FragmentContainer.class);
+
+                    } else {
+
+                        //User with current id is not present in firestore so now we have to get Other Daata from the user
+                        intent = new Intent(MainActivity.this, GetUserData.class);
+
+                    }
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "get failed with ", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+
 }

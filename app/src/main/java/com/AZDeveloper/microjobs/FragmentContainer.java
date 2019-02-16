@@ -24,7 +24,7 @@ public class FragmentContainer extends AppCompatActivity implements BottomNaviga
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
-
+        //When App start if there is user already signed in so Continue this Activity otherwise goto the Login page
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             // User is signed in
