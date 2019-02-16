@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "448314699006",
+    "firebase_url": "https://microjobs-98948.firebaseio.com",
+    "project_id": "microjobs-98948",
+    "storage_bucket": "microjobs-98948.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448314699006:android:00d7da12b1294408",
+        "android_client_info": {
+          "package_name": "com.AZDeveloper.microjobs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448314699006-3goa8bjjlt15eqmifshphhqt6vv6he02.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.AZDeveloper.microjobs",
+            "certificate_hash": "a38818bbe7c469ed44bfcddd629a2179d8209d59"
+          }
+        },
+        {
+          "client_id": "448314699006-vcqeqpm399f03fmevcm61hlnis0q71bu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAew1OWjcnizsaqw-qtytYD1I9j86m-8Eo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448314699006-vcqeqpm399f03fmevcm61hlnis0q71bu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
