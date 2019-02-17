@@ -1,13 +1,30 @@
 package com.AZDeveloper.microjobs.models;
 
+import androidx.lifecycle.LiveData;
+
 //Class for User data to upload data on firestore
-public class User {
+public class User extends LiveData<User> {
     String userID,userName, userEmail;
+    int balancePoints;
 
     public User(String userID, String userName, String userEmail) {
         this.userID = userID;
         this.userName = userName;
         this.userEmail = userEmail;
+    }
+    public User() {
+        this.userID = null;
+        this.userName = null;
+        this.userEmail = null;
+        this.balancePoints = 0;
+    }
+
+    public int getBalancePoints() {
+        return balancePoints;
+    }
+
+    public void setBalancePoints(int balancePoints) {
+        this.balancePoints = balancePoints;
     }
 
     public String getUserID() {
