@@ -82,17 +82,8 @@ public class MainActivity extends AppCompatActivity {
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-                Toast.makeText(MainActivity.this,"Code sent successfully", Toast.LENGTH_LONG).show();
-                //Getting the code sent by SMS
-                String code = phoneAuthCredential.getSmsCode();
 
-                //sometime the code is not detected automatically
-                //in this case the code will be null
-                //so user has to manually enter the code
-                if (code != null) {
-                    //verifying the code
-                    verifyVerificationCode(code);
-                }
+                signInWithPhoneAuthCredential(phoneAuthCredential);
             }
 
             @Override
@@ -105,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                Toast.makeText(MainActivity.this,"Code sent successfully", Toast.LENGTH_LONG).show();
                 super.onCodeSent(s, forceResendingToken);
                 mVerificationId = s;
                 mResendToken = forceResendingToken;

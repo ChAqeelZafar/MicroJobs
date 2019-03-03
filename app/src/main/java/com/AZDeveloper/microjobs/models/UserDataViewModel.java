@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 public class UserDataViewModel extends ViewModel {
     private User user;
 
-    LiveData<User> getInstance(){
+    public LiveData<User> getInstance(){
         if(user==null){
             user = new User();
             loadBalance();

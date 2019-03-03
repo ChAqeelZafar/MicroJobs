@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Temp2">
+
+    <Button
+        android:id="@+id/temp_getcurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Get currency balance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/temp_earned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Earned Curency"
+        app:layout_constraintEnd_toEndOf="@+id/temp_getcurrency"
+        app:layout_constraintStart_toStartOf="@+id/temp_getcurrency"
+        app:layout_constraintTop_toBottomOf="@+id/temp_getcurrency" />
+
+    <Button
+        android:id="@+id/temp_spend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="spend currency"
+        app:layout_constraintEnd_toEndOf="@+id/temp_earned"
+        app:layout_constraintStart_toStartOf="@+id/temp_earned"
+        app:layout_constraintTop_toBottomOf="@+id/temp_earned" />
+
+    <Button
+        android:id="@+id/temp_award"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Award currency"
+        app:layout_constraintEnd_toEndOf="@+id/temp_spend"
+        app:layout_constraintStart_toStartOf="@+id/temp_spend"
+        app:layout_constraintTop_toBottomOf="@+id/temp_spend" />
+</androidx.constraintlayout.widget.ConstraintLayout>
