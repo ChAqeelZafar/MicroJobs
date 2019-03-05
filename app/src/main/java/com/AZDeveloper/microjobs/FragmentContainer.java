@@ -38,6 +38,10 @@ public class FragmentContainer extends AppCompatActivity implements BottomNaviga
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         navView.setOnNavigationItemSelectedListener(this);
+
+//        Intent intent = new Intent(this, Temporary.class);
+//        startActivity(intent);
+
     }
 
     private boolean loadFragment(Fragment fragment){
@@ -56,23 +60,32 @@ public class FragmentContainer extends AppCompatActivity implements BottomNaviga
 
         Fragment fragment = null;
 
+        Intent intent = new Intent(this, Temporary.class);
+        startActivity(intent);
 
 
-        switch (menuItem.getItemId()){
-            case R.id.navigation_home:
-                fragment = new HomeFragment();
-                break;
+//        switch (menuItem.getItemId()){
+//            case R.id.navigation_home:
+//                fragment = new HomeFragment();
+//                Intent intent = new Intent(this, Temporary.class);
+//                startActivity(intent);
+//                break;
+//
+//            case R.id.navigation_dashboard:
+//                fragment = new DashboardFragment();
+//                Intent intent2 = new Intent(this, Temporary.class);
+//                startActivity(intent2);
+//                break;
+//
+//            case R.id.navigation_profile:
+//                fragment = new ProfileFragment();
+//                Intent intent3 = new Intent(this, Temporary.class);
+//                startActivity(intent3);
+//                break;
 
-            case R.id.navigation_dashboard:
-                fragment = new DashboardFragment();
-                break;
+   //     }
 
-            case R.id.navigation_profile:
-                fragment = new ProfileFragment();
-                break;
-
-        }
-
-        return loadFragment(fragment);
+        return true;
+     //   return loadFragment(fragment);
     }
 }

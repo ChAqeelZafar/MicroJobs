@@ -1,10 +1,12 @@
 package com.AZDeveloper.microjobs;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.tapjoy.TJActionRequest;
 import com.tapjoy.TJAwardCurrencyListener;
 import com.tapjoy.TJConnectListener;
@@ -13,6 +15,7 @@ import com.tapjoy.TJError;
 import com.tapjoy.TJGetCurrencyBalanceListener;
 import com.tapjoy.TJPlacement;
 import com.tapjoy.TJPlacementListener;
+import com.tapjoy.TJSetUserIDListener;
 import com.tapjoy.TJSpendCurrencyListener;
 import com.tapjoy.Tapjoy;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +26,8 @@ import java.util.Hashtable;
 
 public class Temporary extends AppCompatActivity implements TJPlacementListener, TJConnectListener {
     Button getBtn, spendBtn, awardBtn, earnBtn;
+
+    TJPlacement placement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,22 +48,13 @@ public class Temporary extends AppCompatActivity implements TJPlacementListener,
 
 
 
+        Tapjoy.setActivity(this);
 
 
         getBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Tapjoy.getCurrencyBalance(new TJGetCurrencyBalanceListener(){
-                    @Override
-                    public void onGetCurrencyBalanceResponse(String currencyName, int balance) {
-                        //Toast.makeText(Temporary.this, "getCurrencyBalance returned " + currencyName + ":" + balance, Toast.LENGTH_LONG).show();
-                    }
-                    @Override
-                    public void onGetCurrencyBalanceResponseFailure(String error) {
-                        //Toast.makeText(Temporary.this, "getCurrencyBalance error: " + error, Toast.LENGTH_LONG).show();
-
-                    }
-                });
+                placement.requestContent();
             }
         });
 
@@ -163,12 +159,13 @@ public class Temporary extends AppCompatActivity implements TJPlacementListener,
 
     @Override
     public void onRequestFailure(TJPlacement tjPlacement, TJError tjError) {
-
+        Toast.makeText(this, tjError.message, Toast.LENGTH_LONG).show();
+        Log.d("TAPJOY",tjError.message);
     }
 
     @Override
     public void onContentReady(TJPlacement tjPlacement) {
-
+        placement.showContent();
     }
 
     @Override
@@ -193,6 +190,20 @@ public class Temporary extends AppCompatActivity implements TJPlacementListener,
 
     @Override
     public void onConnectSuccess() {
+
+        Tapjoy.setUserID(FirebaseAuth.getInstance().getUid(), new TJSetUserIDListener() {
+            @Override
+            public void onSetUserIDSuccess() {
+                placement = Tapjoy.getPlacement("Wall", Temporary.this);
+                placement.requestContent();
+                Toast.makeText(Temporary.this, Tapjoy.getUserToken(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onSetUserIDFailure(String s) {
+                Toast.makeText(Temporary.this, "FAILED", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
