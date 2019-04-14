@@ -25,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity {
+public class PhoneAuthActivity extends AppCompatActivity {
 
     String mVerificationId;
     PhoneAuthProvider.ForceResendingToken  mResendToken;
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(PhoneAuthActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
 
             }
 
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                Toast.makeText(MainActivity.this,"Code sent successfully", Toast.LENGTH_LONG).show();
+                Toast.makeText(PhoneAuthActivity.this,"Code sent successfully", Toast.LENGTH_LONG).show();
                 super.onCodeSent(s, forceResendingToken);
                 mVerificationId = s;
                 mResendToken = forceResendingToken;
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(PhoneAuthActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -142,15 +142,15 @@ public class MainActivity extends AppCompatActivity {
                                 message = "Invalid code entered...";
                             }
 
-                            Toast.makeText(MainActivity.this, message,Toast.LENGTH_LONG).show();
+                            Toast.makeText(PhoneAuthActivity.this, message,Toast.LENGTH_LONG).show();
                         }
                     }
                 });
     }
 
-    //Check if User is logged in First time. So I can get His Name & Mail also, Otherwise Simoly Login
+    //Check if UserData is logged in First time. So I can get His Name & Mail also, Otherwise Simoly Login
     void checkIfDataAlreadyInFirestore(){
-        final boolean isDataEntered = false;
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("usersID").document(FirebaseAuth.getInstance().getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -161,18 +161,19 @@ public class MainActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 
-                        //Mean User with current id is present in Firestore so go to the FragmentContainer Activity
-                        intent = new Intent(MainActivity.this, FragmentContainer.class);
+                        //Mean UserData with current id is present in Firestore so go to the FragmentContainer Activity
+                        intent = new Intent(PhoneAuthActivity.this, FragmentContainer.class);
 
                     } else {
 
-                        //User with current id is not present in firestore so now we have to get Other Daata from the user
-                        intent = new Intent(MainActivity.this, GetUserData.class);
+                        //UserData with current id is not present in firestore so now we have to get Other Daata from the user
+                        intent = new Intent(PhoneAuthActivity.this, GetUserDataActivity.class);
+                        intent.putExtra("phoneNo", phoneEdit.getText().toString());
 
                     }
                     startActivity(intent);
                 } else {
-                    Toast.makeText(MainActivity.this, "get failed with ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PhoneAuthActivity.this, "get failed with ", Toast.LENGTH_LONG).show();
                 }
             }
         });

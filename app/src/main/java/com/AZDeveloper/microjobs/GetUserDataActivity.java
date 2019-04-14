@@ -9,13 +9,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.AZDeveloper.microjobs.models.User;
+import com.AZDeveloper.microjobs.models.UserData;
+import com.AZDeveloper.microjobs.models.UserInfo;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class GetUserData extends AppCompatActivity {
+public class GetUserDataActivity extends AppCompatActivity {
     TextInputLayout nameText;
     EditText mailEdit;
     Button signupBtn;
@@ -35,7 +36,7 @@ public class GetUserData extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(isEmpty()){
-                    Toast.makeText(GetUserData.this,"Some fields are empty", Toast.LENGTH_LONG).show();
+                    Toast.makeText(GetUserDataActivity.this,"Some fields are empty", Toast.LENGTH_LONG).show();
                 }
                 else{
                     updateDatatoTheFirestore(nameText.getEditText().getText().toString(), mailEdit.getText().toString());
@@ -52,14 +53,14 @@ public class GetUserData extends AppCompatActivity {
         return false;
     }
 
-    //Function to update User Data to the firestore
+    //Function to update UserData Data to the firestore
     void updateDatatoTheFirestore(String Uname, String Uemail){
         db = FirebaseFirestore.getInstance();
         String UId = FirebaseAuth.getInstance().getUid();
-        db.collection("usersID").document(UId).set(new User(UId, Uname, Uemail )).addOnSuccessListener(new OnSuccessListener<Void>() {
+        db.collection("usersID").document(UId).set(new UserInfo(UId, Uname, Uemail, getIntent().getExtras().getString("phoneNo") )).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Intent intent = new Intent(GetUserData.this, FragmentContainer.class);
+                Intent intent = new Intent(GetUserDataActivity.this, FragmentContainer.class);
                 startActivity(intent);
             }
         });

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <permission
         android:name="com.AZDeveloper.microjobs.C2D_MESSAGE"
@@ -14,14 +15,28 @@
 
     <uses-permission android:name="com.AZDeveloper.microjobs.permission.C2D_MESSAGE" />
 
+
+
+
     <application
+
+
+
+
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GetUserData" />
+        <activity
+            android:name=".AyetstudiosActivity"
+            android:label="@string/title_activity_ayetstudios"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".IronSourceActivity"></activity>
+        <activity android:name=".GetUserDataActivity" />
         <activity
             android:name=".FragmentContainer"
             android:label="@string/title_activity_main3">
@@ -31,12 +46,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Temporary"
-            android:configChanges="orientation|keyboardHidden|screenSize">
+        <activity
+            android:name=".Temporary"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name=".PhoneAuthActivity" />
+
+        <activity android:name="com.ayetstudios.publishersdk.OfferwallActivity" android:configChanges="orientation|screenSize" />
+        <activity android:name="com.ayetstudios.publishersdk.VideoActivity" android:configChanges="orientation|screenSize" />
 
 
-        </activity>
-        <activity android:name=".MainActivity" />
+
+
+        <activity
+            android:name="com.ironsource.sdk.controller.ControllerActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="true" />
+        <activity
+            android:name="com.ironsource.sdk.controller.InterstitialActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name="com.ironsource.sdk.controller.OpenUrlActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name="com.tapjoy.TJAdUnitActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -57,6 +91,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <meta-data android:name="AYET_APP_KEY" android:value="4d06d8bc167d2f4b3e201da1cc5db862" />
         <receiver
             android:name="com.tapjoy.GCMReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
@@ -69,6 +104,14 @@
             </intent-filter>
         </receiver>
         <receiver android:name="com.tapjoy.TapjoyReceiver" />
+
+
+        <receiver android:name="com.ayetstudios.publishersdk.TrackingReceiver" android:exported="true" android:enabled="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

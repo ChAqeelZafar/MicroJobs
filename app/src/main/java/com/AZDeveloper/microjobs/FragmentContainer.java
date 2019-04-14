@@ -28,13 +28,13 @@ public class FragmentContainer extends AppCompatActivity implements BottomNaviga
         //When App start if there is user already signed in so Continue this Activity otherwise goto the Login page
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
-            // User is signed in
-            Intent i = new Intent(FragmentContainer.this, MainActivity.class);
+            // UserData is signed in
+            Intent i = new Intent(FragmentContainer.this, PhoneAuthActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(i);
         }
 
-
+        loadFragment(new HomeFragment());
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         navView.setOnNavigationItemSelectedListener(this);
